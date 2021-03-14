@@ -1,0 +1,343 @@
+<S5300-1>
+Mar 23 2017 10:09:15-05:13 S5300-1 LINE/5/VTYUSERLOGIN:OID 1.3.6.1.4.1.2011.5.25.207.2.2 A user login. (UserIndex=0, UserName=Console, UserIP=con0, UserChannel=CON0)
+<S5300-1>
+<S5300-1>
+<S5300-1>dis cur
+<S5300-1>dis current-configuration 
+#
+!Software Version V200R001C00SPC300
+sysname S5300-1
+#
+FTP server enable
+#
+vlan batch 2 to 4 10
+#
+stp bpdu-protection
+stp tc-protection
+stp enable
+#
+undo http server enable
+#
+acl number 2011
+ description "ssh-login"
+ rule 0 permit source 10.25.166.66 0
+ rule 1 permit source 10.25.166.0 0.0.0.255
+ rule 2 permit source 10.25.11.145 0
+ rule 5000 deny
+#
+vlan 2
+ description to S9306-1
+vlan 3
+ description to 2#3F-zuoxi-1              
+vlan 4
+ description to 2#3F-zuoxi-12580
+#
+aaa
+ authentication-scheme default
+ authorization-scheme default
+ accounting-scheme default
+ domain default
+ domain default_admin
+ local-user admin password cipher %$%$I6.ASV)hJET,p"Dn.YM%3aXO%$%$
+ local-user admin service-type http
+ local-user huawei password cipher %$%$l/2TGY-'/8}>Ac/zW:8NbB90%$%$
+ local-user huawei privilege level 3
+ local-user huawei service-type ssh
+#
+interface Vlanif1
+#
+interface Vlanif2
+ description TO S9306-1
+ ip address 10.25.165.213 255.255.255.248
+ vrrp vrid 2 virtual-ip 10.25.165.212
+ vrrp vrid 2 priority 105
+#
+interface Vlanif3                         
+ description to 2#3F-zuoxi-1
+ ip address 10.26.42.2 255.255.255.128
+ vrrp vrid 3 virtual-ip 10.26.42.1
+ vrrp vrid 3 priority 105
+ vrrp vrid 3 preempt-mode timer delay 120
+ vrrp vrid 3 track interface Vlanif2
+#
+interface Vlanif4
+ description to 2#3F-zuoxi-12580
+ ip address 10.26.42.130 255.255.255.128
+ vrrp vrid 4 virtual-ip 10.26.42.129
+ vrrp vrid 4 priority 105
+ vrrp vrid 4 preempt-mode timer delay 5
+ vrrp vrid 4 track interface Vlanif2
+#
+interface MEth0/0/1
+ shutdown
+#
+interface Eth-Trunk0
+ description to S5300-2
+ port link-type trunk
+ port trunk allow-pass vlan 3 to 4 10
+ stp instance 0 cost 150000
+#                                         
+interface GigabitEthernet0/0/1
+ description to S3352-1 0/0/47
+ port link-type trunk
+ port trunk allow-pass vlan 3 to 4
+#
+interface GigabitEthernet0/0/2
+ description to S3352-2 0/0/47
+ port link-type trunk
+ port trunk allow-pass vlan 3 to 4
+#
+interface GigabitEthernet0/0/3
+ description to S3352-3 0/0/47
+ port link-type trunk
+ port trunk allow-pass vlan 3 to 4
+#
+interface GigabitEthernet0/0/4
+ port link-type trunk
+ port trunk allow-pass vlan 3 to 4
+#
+interface GigabitEthernet0/0/5
+ port link-type trunk
+ port trunk allow-pass vlan 3 to 4
+#
+interface GigabitEthernet0/0/6            
+ port link-type access
+ port default vlan 3
+#
+interface GigabitEthernet0/0/7
+ shutdown
+#
+interface GigabitEthernet0/0/8
+ shutdown
+#
+interface GigabitEthernet0/0/9
+ shutdown
+#
+interface GigabitEthernet0/0/10
+ shutdown
+#
+interface GigabitEthernet0/0/11
+ shutdown
+#
+interface GigabitEthernet0/0/12
+ shutdown
+#
+interface GigabitEthernet0/0/13
+ shutdown
+#                                         
+interface GigabitEthernet0/0/14
+ shutdown
+#
+interface GigabitEthernet0/0/15
+ shutdown
+#
+interface GigabitEthernet0/0/16
+ shutdown
+#
+interface GigabitEthernet0/0/17
+ shutdown
+#
+interface GigabitEthernet0/0/18
+ shutdown
+#
+interface GigabitEthernet0/0/19
+ shutdown
+#
+interface GigabitEthernet0/0/20
+ shutdown
+#
+interface GigabitEthernet0/0/21
+ shutdown
+#                                         
+interface GigabitEthernet0/0/22
+ shutdown
+#
+interface GigabitEthernet0/0/23
+ shutdown
+#
+interface GigabitEthernet0/0/24
+ shutdown
+#
+interface GigabitEthernet0/0/25
+ description to OA-s3352 0/0/47
+ port link-type access
+ port default vlan 10
+#
+interface GigabitEthernet0/0/26
+ port link-type access
+ port default vlan 10
+#
+interface GigabitEthernet0/0/27
+ shutdown
+#
+interface GigabitEthernet0/0/28
+ shutdown
+#                                         
+interface GigabitEthernet0/0/29
+ shutdown
+#
+interface GigabitEthernet0/0/30
+ shutdown
+#
+interface GigabitEthernet0/0/31
+ shutdown
+#
+interface GigabitEthernet0/0/32
+ shutdown
+#
+interface GigabitEthernet0/0/33
+ shutdown
+#
+interface GigabitEthernet0/0/34
+ shutdown
+#
+interface GigabitEthernet0/0/35
+ shutdown
+#
+interface GigabitEthernet0/0/36
+ shutdown
+#                                         
+interface GigabitEthernet0/0/37
+ shutdown
+ port link-type access
+#
+interface GigabitEthernet0/0/38
+ shutdown
+#
+interface GigabitEthernet0/0/39
+ shutdown
+#
+interface GigabitEthernet0/0/40
+ shutdown
+#
+interface GigabitEthernet0/0/41
+ shutdown
+#
+interface GigabitEthernet0/0/42
+ shutdown
+#
+interface GigabitEthernet0/0/43
+ shutdown
+#
+interface GigabitEthernet0/0/44
+ shutdown                                 
+#
+interface GigabitEthernet0/0/45
+ shutdown
+#
+interface GigabitEthernet0/0/46
+ shutdown
+#
+interface GigabitEthernet0/0/47
+ eth-trunk 0
+#
+interface GigabitEthernet0/0/48
+ eth-trunk 0
+#
+interface GigabitEthernet0/1/1
+ description to KFQ-CS-S9306-1
+ port link-type access
+ port default vlan 2
+ stp disable
+ stp instance 0 cost 20
+#
+interface GigabitEthernet0/1/2
+ description to OA9306
+ port link-type trunk
+ port trunk allow-pass vlan 10            
+ stp loop-protection
+#
+interface GigabitEthernet0/1/3
+ shutdown
+#
+interface GigabitEthernet0/1/4
+ shutdown
+#
+interface NULL0
+#
+ip route-static 0.0.0.0 0.0.0.0 10.25.165.209
+#
+snmp-agent
+snmp-agent local-engineid 800007DB03104780314D40
+snmp-agent community read cipher %$%$_R]j$Z.6a270Q6$:'n"B98/&%$%$
+snmp-agent community write cipher %$%$Z[X(Uk6A:~H0fTAD-4^X9MD;%$%$
+snmp-agent sys-info version v2c v3
+snmp-agent target-host trap address udp-domain 10.25.166.66 udp-port 10162 params securityname public v2c
+snmp-agent trap enable
+#
+stelnet server enable
+ssh user huawei
+ssh user huawei authentication-type password
+ssh user huawei service-type stelnet      
+ssh client first-time enable
+#
+user-interface con 0
+ authentication-mode password
+ set authentication password cipher %$%$,$<`~-Sd+:PgdQC^^XT3/{ri+GdFDzT&3)0,u'>}L;l@B$xs%$%$
+user-interface vty 0 4
+ acl 2011 inbound
+ authentication-mode aaa
+ protocol inbound ssh
+user-interface vty 16 20
+#
+return
+<S5300-1>dis vlan 
+The total number of vlans is : 5
+--------------------------------------------------------------------------------
+U: Up;         D: Down;         TG: Tagged;         UT: Untagged;
+MP: Vlan-mapping;               ST: Vlan-stacking;
+#: ProtocolTransparent-vlan;    *: Management-vlan;
+--------------------------------------------------------------------------------
+
+VID  Type    Ports                                                          
+--------------------------------------------------------------------------------
+1    common  UT:GE0/0/1(U)      GE0/0/2(U)      GE0/0/3(U)      GE0/0/4(U)      
+                GE0/0/5(U)      GE0/0/7(D)      GE0/0/8(D)      GE0/0/9(D)      
+                GE0/0/10(D)     GE0/0/11(D)     GE0/0/12(D)     GE0/0/13(D)     
+                GE0/0/14(D)     GE0/0/15(D)     GE0/0/16(D)     GE0/0/17(D)     
+                GE0/0/18(D)     GE0/0/19(D)     GE0/0/20(D)     GE0/0/21(D)     
+                GE0/0/22(D)     GE0/0/23(D)     GE0/0/24(D)     GE0/0/27(D)     
+                GE0/0/28(D)     GE0/0/29(D)     GE0/0/30(D)     GE0/0/31(D)     
+                GE0/0/32(D)     GE0/0/33(D)     GE0/0/34(D)     GE0/0/35(D)     
+                GE0/0/36(D)     GE0/0/37(D)     GE0/0/38(D)     GE0/0/39(D)     
+                GE0/0/40(D)     GE0/0/41(D)     GE0/0/42(D)     GE0/0/43(D)     
+                GE0/0/44(D)     GE0/0/45(D)     GE0/0/46(D)     GE0/1/2(U)      
+                GE0/1/3(D)      GE0/1/4(D)      Eth-Trunk0(U)                   
+2    common  UT:GE0/1/1(U)                                                      
+3    common  UT:GE0/0/6(D)                                                      
+             TG:GE0/0/1(U)      GE0/0/2(U)      GE0/0/3(U)      GE0/0/4(U)      
+                GE0/0/5(U)      Eth-Trunk0(U)                                   
+4    common  TG:GE0/0/1(U)      GE0/0/2(U)      GE0/0/3(U)      GE0/0/4(U)      
+                GE0/0/5(U)      Eth-Trunk0(U)                                   
+10   common  UT:GE0/0/25(U)     GE0/0/26(D)                                     
+             TG:GE0/1/2(U)      Eth-Trunk0(U)                                   
+
+VID  Status  Property      MAC-LRN Statistics Description      
+--------------------------------------------------------------------------------
+1    enable  default       enable  disable    VLAN 0001                         
+2    enable  default       enable  disable    to S9306-1                        
+3    enable  default       enable  disable    to 2#3F-zuoxi-1                   
+4    enable  default       enable  disable    to 2#3F-zuoxi-12580               
+10   enable  default       enable  disable    VLAN 0010                         
+<S5300-1>
+
+<S5300-1>dis ip routing-table 
+Route Flags: R - relay, D - download to fib
+------------------------------------------------------------------------------
+Routing Tables: Public
+         Destinations : 12       Routes : 12       
+
+Destination/Mask    Proto   Pre  Cost      Flags NextHop         Interface
+
+        0.0.0.0/0   Static  60   0          RD   10.25.165.209   Vlanif2
+  10.25.165.208/29  Direct  0    0           D   10.25.165.213   Vlanif2
+  10.25.165.212/32  Direct  0    0           D   127.0.0.1       Vlanif2
+  10.25.165.213/32  Direct  0    0           D   127.0.0.1       Vlanif2
+     10.26.42.0/25  Direct  0    0           D   10.26.42.2      Vlanif3
+     10.26.42.1/32  Direct  0    0           D   127.0.0.1       Vlanif3
+     10.26.42.2/32  Direct  0    0           D   127.0.0.1       Vlanif3
+   10.26.42.128/25  Direct  0    0           D   10.26.42.130    Vlanif4
+   10.26.42.129/32  Direct  0    0           D   127.0.0.1       Vlanif4
+   10.26.42.130/32  Direct  0    0           D   127.0.0.1       Vlanif4
+      127.0.0.0/8   Direct  0    0           D   127.0.0.1       InLoopBack0
+      127.0.0.1/32  Direct  0    0           D   127.0.0.1       InLoopBack0
